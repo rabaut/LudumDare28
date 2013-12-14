@@ -7,6 +7,7 @@
 //
 
 #include "StatePlay.h"
+#include "MapGenerator.h"
 
 StatePlay::StatePlay(Game* game) : State(game)
 {
@@ -18,3 +19,17 @@ StatePlay::~StatePlay()
     
 }
 
+void StatePlay::Initialize()
+{
+    
+}
+
+void StatePlay::Update()
+{
+    
+}
+
+void StatePlay::Render(sf::RenderWindow* window)
+{
+    
+}

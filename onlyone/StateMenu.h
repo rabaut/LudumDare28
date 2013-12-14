@@ -16,7 +16,14 @@ class StateMenu : public State
 {
 public:
     StateMenu(Game* game);
-    ~StateMenu();
+    
+    virtual void Initialize();
+    virtual void Update();
+    virtual void Render(sf::RenderWindow* window);
+    
+private:
+    sf::Texture mMenuTexture;
+    sf::Sprite mMenuSprite;
 
 };
 

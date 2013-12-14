@@ -11,12 +11,14 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "State.h"
+#include "InputManager.h"
+
+class State;
 
 class Game
 {
 public:
-    Game();
+    Game(InputManager* inputManager);
     ~Game();
     
     enum States
@@ -30,17 +32,24 @@ public:
     
     void Start();
     void Update();
-    void Render(sf::RenderWindow& window);
+    void Render(sf::RenderWindow* window);
     void Quit();
     
-    void SetState(State* state);
+    void SetState(States nextState);
     State* GetState();
     
+    InputManager* GetInputManager() {return mInputManager;}
+    
 private:
+    Game();
+    
+    InputManager* mInputManager;
     //! Pointer to the current state
     State* mCurrentState;
     int mStateID;
     int mNextState;
+    
+    void UpdateState();
 };
 
 #endif /* defined(__onlyone__Game__) */

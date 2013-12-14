@@ -28,7 +28,7 @@ void State::Update()
     
 }
 
-void State::Render(sf::RenderWindow& window)
+void State::Render(sf::RenderWindow* window)
 {
     
 }

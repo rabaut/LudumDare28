@@ -11,8 +11,8 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Game.h"
 
-class Game;
 //! Abstract base class for States
 class State
 {
@@ -20,15 +20,17 @@ public:
     State(Game* game);
     virtual ~State();
     
-    virtual void Initialize;
+    virtual void Initialize();
     virtual void Update();
-    virtual void Render(sf::RenderWindow& window);
+    virtual void Render(sf::RenderWindow* window);
+    
+protected:
+    //! Pointer to the game
+    Game* mGame;
     
 private:
     //! Default constructor (disabled)
     State();
-    //! Pointer to the game
-    Game* mGame;
 };
 
 

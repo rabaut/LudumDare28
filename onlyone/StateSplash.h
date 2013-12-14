@@ -19,6 +19,7 @@ public:
     
     virtual void Initialize();
     virtual void Update();
+    virtual void Render(sf::RenderWindow* window);
 
 private:
     //! Default constructor (disabled)

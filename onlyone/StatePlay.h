@@ -17,7 +17,13 @@ class StatePlay : public State
 public:
     StatePlay(Game* game);
     ~StatePlay();
-
+    
+    virtual void Initialize();
+    virtual void Update();
+    virtual void Render(sf::RenderWindow* window);
+    
+private:
+    
 };
 
 #endif /* defined(__onlyone__StatePlay__) */

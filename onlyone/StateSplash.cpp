@@ -7,6 +7,7 @@
 //
 
 #include "StateSplash.h"
+#include "ResourcePath.hpp"
 
 StateSplash::StateSplash(Game* game) : State(game)
 {
@@ -15,7 +16,11 @@ StateSplash::StateSplash(Game* game) : State(game)
 
 void StateSplash::Initialize()
 {
-    if(mTexture)
+    mAlpha = 255;
+    if(!mSplashTexture.loadFromFile(resourcePath() + "splash.png"))
+        std::cout << "Could not load splash.png" << std::endl;
+    else
+        mSplashSprite.setTexture(mSplashTexture);
 }
 
 void StateSplash::Update()
@@ -23,7 +28,12 @@ void StateSplash::Update()
     mAlpha = mAlpha -3;
     if(mAlpha <= 0)
     {
-        
+        mGame->SetState(Game::STATE_MENU);
     }
     mSplashSprite.setColor(sf::Color(255,255,255,mAlpha));
+}
+
+void StateSplash::Render(sf::RenderWindow* window)
+{
+    window->draw(mSplashSprite);
 }
