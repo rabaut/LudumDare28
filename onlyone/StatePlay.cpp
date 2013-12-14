@@ -7,11 +7,10 @@
 //
 
 #include "StatePlay.h"
-#include "MapGenerator.h"
 
 StatePlay::StatePlay(Game* game) : State(game)
 {
-    
+    Initialize();
 }
 
 StatePlay::~StatePlay()
@@ -21,7 +20,7 @@ StatePlay::~StatePlay()
 
 void StatePlay::Initialize()
 {
-    
+    mMap = new Map(50,50);
 }
 
 void StatePlay::Update()
@@ -31,5 +30,5 @@ void StatePlay::Update()
 
 void StatePlay::Render(sf::RenderWindow* window)
 {
-    
+    mMap->PrintMap();
 }

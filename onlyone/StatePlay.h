@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "State.h"
+#include "Map.h"
 
 class StatePlay : public State
 {
@@ -23,7 +24,7 @@ public:
     virtual void Render(sf::RenderWindow* window);
     
 private:
-    
+    Map* mMap;
 };
 
 #endif /* defined(__onlyone__StatePlay__) */

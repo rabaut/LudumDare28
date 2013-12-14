@@ -17,11 +17,10 @@ class MapGenerator
 public:
     MapGenerator(int mapWidth=40, int mapHeight=21, int percentAreWalls=40);
     
-    void GenerateMap();
-    void PrintMap();
+    int** GenerateMap();
     
 private:
-    std::vector<std::vector<int>> mMap;
+    int** mMap;
     int mMapWidth;
     int mMapHeight;
     int mPercentAreWalls;
@@ -31,7 +30,6 @@ private:
     int GetAdjacentWalls(int x,int y,int scopeX,int scopeY);
     bool IsWall(int x,int y);
     bool IsOutOfBounds(int x, int y);
-    std::string MapToString();
     void BlankMap();
     void RandomFillMap();
     

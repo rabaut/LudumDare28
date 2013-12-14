@@ -15,12 +15,17 @@ MapGenerator::MapGenerator(int mapWidth, int mapHeight, int percentAreWalls)
     mMapHeight = mapHeight;
     mPercentAreWalls = percentAreWalls;
     
-    RandomFillMap();
+    mMap = new int*[mMapWidth];
+    for(int i= 0; i< mMapWidth;i++)
+    {
+        mMap[i] = new int[mMapHeight];
+    }
 }
 
-void MapGenerator::GenerateMap()
+int** MapGenerator::GenerateMap()
 {
-    
+    RandomFillMap();
+    return mMap;
 }
 
 void MapGenerator::MakeCaverns()
@@ -120,38 +125,6 @@ bool MapGenerator::IsOutOfBounds(int x, int y)
         return true;
     }
     return false;
-}
-
-void MapGenerator::PrintMap()
-{
-    //Console.Write(MapToString());
-}
-
-std::string MapGenerator::MapToString()
-{
-//    std::string returnString = std::string.Join(" ", // Seperator between each element
-//                                      "Width:",
-//                                      MapWidth.ToString(),
-//                                      "\tHeight:",
-//                                      MapHeight.ToString(),
-//                                      "\t% Walls:",
-//                                      PercentAreWalls.ToString(),
-//                                      Environment.NewLine
-//                                      );
-//    
-//    List<string> mapSymbols = new List<string>();
-//    mapSymbols.Add(".");
-//    mapSymbols.Add("#");
-//    mapSymbols.Add("+");
-//    
-//    for(int column=0,row=0; row < MapHeight; row++ ) {
-//        for( column = 0; column < MapWidth; column++ )
-//        {
-//            returnString += mapSymbols[Map[column,row]];
-//        }
-//        returnString += Environment.NewLine;
-//    }
-//    return returnString;
 }
 
 void MapGenerator::BlankMap()
