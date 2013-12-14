@@ -16,7 +16,7 @@ StateMenu::StateMenu(Game* game) : State(game)
 
 void StateMenu::Initialize()
 {
-    if(!mMenuTexture.loadFromFile(resourcePath() + "MainMenu.png"))
+    if(!mMenuTexture.loadFromFile(resourcePath() + "mainMenu.png"))
         std::cout << "Could not load MainMenu.png" << std::endl;
     else
         mMenuSprite.setTexture(mMenuTexture);
