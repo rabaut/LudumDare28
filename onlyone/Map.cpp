@@ -19,11 +19,16 @@ Map::Map(int mapWidth, int mapHeight, int percentAreWalls, int entitySize)
     mEntitySize = entitySize;
     mMapSize = PixelToMapCoord(mapWidth, mapHeight);
     mPercentAreWalls = percentAreWalls;
+    // Symbols that need to be found
+    mFoundString = "2 3 4 5 6 7 8 9 A B C D E F";
     
     mPlayerSpawn = mMapSize/2;
 
     for(int i=0;i<16;i++)
         mColors.push_back(sf::Color(rand(),rand(),rand()));
+    
+    mTransSound.loadFromFile(resourcePath() + "transform.wav");
+    mNodeSound.loadFromFile(resourcePath() + "node.wav");
 
     InitializeMap();
     MakeNodes();
@@ -164,12 +169,9 @@ int Map::GetAdjacentWalls(int x,int y,int scopeX,int scopeY)
     int endX = x + scopeX;
     int endY = y + scopeY;
     
-    int iX = startX;
-    int iY = startY;
-    
     int wallCounter = 0;
     
-    for(iX = startX; iX <= endX; iX++)
+    for(int iX = startX, iY; iX <= endX; iX++)
     {
         for(iY = startY; iY <= endY; iY++)
         {
@@ -258,6 +260,7 @@ void Map::CheckLeftPattern(sf::Vector2i point)
         mMap[point.x-(pattern.length()-1)][point.y]->SetString(hexString);
         mMap[point.x-(pattern.length()-1)][point.y]->UpdateColor(dec);
         mMap[point.x-(pattern.length()-1)][point.y]->SetHex();
+        SymbolFound(hexString);
     }
 }
 void Map::CheckRightPattern(sf::Vector2i point)
@@ -294,6 +297,7 @@ void Map::CheckRightPattern(sf::Vector2i point)
         mMap[point.x+(pattern.length()-1)][point.y]->SetString(hexString);
         mMap[point.x+(pattern.length()-1)][point.y]->SetHex();
         mMap[point.x+(pattern.length()-1)][point.y]->UpdateColor(dec);
+        SymbolFound(hexString);
     }
 }
 void Map::CheckUpPattern(sf::Vector2i point)
@@ -330,6 +334,7 @@ void Map::CheckUpPattern(sf::Vector2i point)
         mMap[point.x][point.y-(pattern.length()-1)]->SetString(hexString);
         mMap[point.x][point.y-(pattern.length()-1)]->SetHex();
         mMap[point.x][point.y-(pattern.length()-1)]->UpdateColor(dec);
+        SymbolFound(hexString);
     }
 }
 void Map::CheckDownPattern(sf::Vector2i point)
@@ -366,26 +371,24 @@ void Map::CheckDownPattern(sf::Vector2i point)
         mMap[point.x][point.y+(pattern.length()-1)]->SetString(hexString);
         mMap[point.x][point.y+(pattern.length()-1)]->UpdateColor(dec);
         mMap[point.x][point.y+(pattern.length()-1)]->SetHex();
+        SymbolFound(hexString);
     }
 }
 
-int Map::GetScore()
+void Map::SymbolFound(std::string symbol)
 {
-    int score = 0;
-    unsigned long long int dec;
-    for(int x = 0,y = 0; x < mMapSize.x; x++ )
-    {
-        for( y = 0; y < mMapSize.y; y++ )
-        {
-            if(mMap[x][y]->IsHex())
-            {
-                string s = mMap[x][y]->GetString();
-                dec = strtoull(s.c_str(),NULL,16);
-                score += dec;
-            }
-        }
-    }
-    return score;
+    mSound.setBuffer(mTransSound);
+    mSound.play();
+    size_t f = mFoundString.find(symbol);
+    if(f!=std::string::npos)
+        mFoundString.replace(f, symbol.length(), " ");
+}
+
+
+void Map::PlayNode()
+{
+    mSound.setBuffer(mNodeSound);
+    mSound.play();
 }
 
 sf::Vector2i Map::PixelToMapCoord(sf::Vector2i point)

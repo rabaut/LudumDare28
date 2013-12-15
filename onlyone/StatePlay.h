@@ -28,11 +28,12 @@ private:
     Game* mGame;
     Map mMap;
     Player mPlayer;
-    sf::Text mScore;
+    sf::Text mFound;
     sf::Text mTimeLeft;
     sf::Font mFont;
     sf::Clock mClock;
     sf::Time mLastUpdate;
+    sf::Music mMusic;
 };
 
 #endif /* defined(__onlyone__StatePlay__) */

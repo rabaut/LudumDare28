@@ -10,6 +10,7 @@
 #define __onlyone__Map__
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -42,11 +43,12 @@ public:
     sf::Vector2f MapCoordToPixel(sf::Vector2i point);
     sf::Vector2f MapCoordToPixel(int x, int y);
     
-    int GetScore();
+    std::string GetFoundString() {return mFoundString;}
+    
+    void PlayNode();
     
 private:
     Map();
-    void MakeCaverns();
     int PlaceWallLogic(int x,int y);
     int GetAdjacentWalls(int x,int y,int scopeX,int scopeY);
     bool IsWall(int x,int y);
@@ -55,14 +57,21 @@ private:
     void RandomFillMap();
     bool RandomPercent(int percent);
     void MakeNodes();
+    void SymbolFound(std::string symbol);
     
     std::vector<std::vector<MapEntity*>> mMap;
     sf::Vector2i mMapSize;
     int mPercentAreWalls;
     int mEntitySize;
+    std::string mFoundString;
     
     sf::Vector2i mPlayerSpawn;
     std::vector<sf::Color> mColors;
+    
+    sf::SoundBuffer mTransSound;
+    sf::SoundBuffer mNodeSound;
+    
+    sf::Sound mSound;
 };
 
 #endif /* defined(__onlyone__Map__) */

@@ -80,4 +80,5 @@ void MapEntity::NodeTouched()
     }
     int r = rand() % 5;
     mText.setString(pos[r]);
+    mMap->PlayNode();
 }
