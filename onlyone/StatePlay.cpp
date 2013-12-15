@@ -8,9 +8,9 @@
 
 #include "StatePlay.h"
 
-StatePlay::StatePlay(Game* game) : State(game)
+StatePlay::StatePlay(Game* game) : State(game), mMap(600,600,45,10), mPlayer(&mMap)
 {
-    Initialize();
+    mGame = game;
 }
 
 StatePlay::~StatePlay()
@@ -20,15 +20,16 @@ StatePlay::~StatePlay()
 
 void StatePlay::Initialize()
 {
-    mMap = new Map(50,50);
+
 }
 
 void StatePlay::Update()
 {
-    
+    mPlayer.Update(mGame->GetInputManager());
 }
 
 void StatePlay::Render(sf::RenderWindow* window)
 {
-    mMap->PrintMap();
+    mMap.Render(window);
+    mPlayer.Render(window);
 }

@@ -9,25 +9,58 @@
 #ifndef __onlyone__Map__
 #define __onlyone__Map__
 
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include "MapEntity.h"
+#include "ResourcePath.hpp"
 
 class Map
 {
 public:
-    Map(int mapHeight=600, int mapWidth=800);
+    Map(int mapHeight=200, int mapWidth=200, int percentAreWalls=45, int entitySize=10);
+    ~Map();
     
-    void PrintMap();
-    std::string MapToString();
+    void Render(sf::RenderWindow* window);
+    
+    bool IsEntity(sf::Vector2i point);
+    
+    void CheckLeftPattern(sf::Vector2i point);
+    void CheckRightPattern(sf::Vector2i point);
+    void CheckUpPattern(sf::Vector2i point);
+    void CheckDownPattern(sf::Vector2i point);
+    
+    sf::Vector2i GetPlayerSpawn() {return mPlayerSpawn;}
+    sf::Color GetPlayerColor() {return mPlayerColor;}
+    
+    int GetEntitySize() {return mEntitySize;}
+    sf::Color GetEntityColor(int n) {return mColors.at(n);}
+    
+    sf::Vector2i PixelToMapCoord(sf::Vector2i point);
+    sf::Vector2i PixelToMapCoord(int x, int y);
+    sf::Vector2f MapCoordToPixel(sf::Vector2i point);
+    sf::Vector2f MapCoordToPixel(int x, int y);
     
 private:
     Map();
-    int** mMap;
+    void MakeCaverns();
+    int PlaceWallLogic(int x,int y);
+    int GetAdjacentWalls(int x,int y,int scopeX,int scopeY);
+    bool IsWall(int x,int y);
+    bool IsOutOfBounds(int x, int y);
+    void InitializeMap();
+    void RandomFillMap();
+    bool RandomPercent(int percent);
     
-    void Generate();
+    std::vector<std::vector<MapEntity*>> mMap;
+    sf::Vector2i mMapSize;
+    int mPercentAreWalls;
+    int mEntitySize;
     
-    int mMapHeight;
-    int mMapWidth;
+    sf::Vector2i mPlayerSpawn;
+    sf::Color mPlayerColor;
+    std::vector<sf::Color> mColors;
 };
 
 #endif /* defined(__onlyone__Map__) */

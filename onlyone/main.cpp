@@ -14,10 +14,10 @@
 
 int main()
 {
-    const sf::Vector2i ScreenDimensions(800,600);
+    const sf::Vector2i ScreenDimensions(600,600);
     
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode(ScreenDimensions.x,ScreenDimensions.y),"YOU ONLY GET 1");
+    sf::RenderWindow window(sf::VideoMode(ScreenDimensions.x,ScreenDimensions.y),"YOU ONLY GET 1",sf::Style::None);
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
     
@@ -80,7 +80,7 @@ int main()
         }
         
         //Update the window
-        window.clear();
+        window.clear(sf::Color::White);
         Game.Render(&window);
         window.display();
     }
