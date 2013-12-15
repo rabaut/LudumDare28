@@ -12,19 +12,19 @@
 #include <iostream>
 #include "Map.h"
 #include "MapEntity.h"
-#include "InputManager.h"
 
 class Player : public MapEntity
 {
 public:
     Player(Map* map);
     
-    virtual void Render(sf::RenderWindow* window);
-    
-    void Update(InputManager* input);
+    void Update(double dt);
 
 private:
     Player();
+    
+    double mLastUpdate;
+    double mSpeed;
     
 
 };

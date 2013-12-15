@@ -13,11 +13,15 @@
 
 MapEntity::MapEntity(Map* map)
 {
+    mType = ENT_BIN;
     mMap = map;
     mFont.loadFromFile(resourcePath() + "sansation.ttf");
-    mText.setFont(mFont); mActive = false;
-    mHex = false;
-    mBorder = false;
+    mText.setFont(mFont);
+    int value = rand()%2;
+    mText.setString(std::to_string(value));
+    mText.setCharacterSize(map->GetEntitySize());
+    mText.setColor(mMap->GetEntityColor(value));
+    mVisible = true;
 }
 
 void MapEntity::UpdateColor(int n)
@@ -37,25 +41,43 @@ sf::Vector2i MapEntity::GetPosition()
 
 void MapEntity::Render(sf::RenderWindow *window)
 {
-    if(mActive)
+    if(mVisible)
     {
-        if(!mHex && !mBorder)
+        if(mType == ENT_NODE)
             mText.setColor(sf::Color(rand(),rand(),rand()));
         window->draw(mText);
     }
 }
 
-void MapEntity::SetHex(bool hex)
+void MapEntity::SetHex()
 {
-    mHex = hex;
+    mType = ENT_HEX;
     mText.setStyle(sf::Text::Style::Italic);
 }
 
 void MapEntity::SetBorder()
 {
-    mBorder = true;
-    mActive = true;
+    mType = ENT_BORDER;
     mText.setString("*");
     mText.setStyle(sf::Text::Style::Bold);
     mText.setColor(sf::Color::Black);
+}
+
+void MapEntity::SetNode()
+{
+    mType = ENT_NODE;
+    mText.setString("@");
+    mText.setStyle(sf::Text::Style::Bold);
+}
+
+void MapEntity::NodeTouched()
+{
+    mType = ENT_HEX;
+    char pos[5];
+    for(int i = 0; i < 5; i++)
+    {
+        pos[i] = 65+i;
+    }
+    int r = rand() % 5;
+    mText.setString(pos[r]);
 }

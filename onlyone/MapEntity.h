@@ -19,17 +19,34 @@ class MapEntity
 public:
     MapEntity(Map* map);
     
+    enum EntType
+    {
+        ENT_BIN,
+        ENT_HEX,
+        ENT_BORDER,
+        ENT_NODE,
+        ENT_PLYR
+    };
+    
     void SetColor(sf::Color color) {mText.setColor(color);}
     sf::Color GetColor() {return mText.getColor();}
     
-    void SetActive(bool active) {mActive = active;}
-    bool IsActive() {return mActive;}
+    void SetVisible(bool b) {mVisible = b;}
+    bool IsVisible() {return mVisible;}
     
-    void SetHex(bool hex);
-    bool IsHex() {return mHex;}
+    void SetBinary();
+    bool IsBinary() {return mType == ENT_BIN;}
+    
+    void SetHex();
+    bool IsHex() {return mType == ENT_HEX;}
     
     void SetBorder();
-    bool IsBorder() {return mBorder;}
+    bool IsBorder() {return mType == ENT_BORDER;}
+    
+    void SetNode();
+    bool IsNode() {return mType == ENT_NODE;}
+    
+    void NodeTouched();
     
     void SetString(sf::String string) {mText.setString(string);}
     sf::String GetString() {return mText.getString();}
@@ -39,18 +56,14 @@ public:
     void SetPosition(sf::Vector2i pos);
     sf::Vector2i GetPosition();
     
-    void SetSize(int size) {mText.setCharacterSize(size);}
-    int GetSize() {return mText.getCharacterSize();}
-    
-    virtual void Render(sf::RenderWindow* window);
+    void Render(sf::RenderWindow* window);
     
 protected:
     sf::Text mText;
     sf::Font mFont;
+    bool mVisible;
     Map* mMap;
-    bool mActive;
-    bool mHex;
-    bool mBorder;
+    EntType mType;
     
 private:
     MapEntity();

@@ -26,6 +26,7 @@ Map::Map(int mapWidth, int mapHeight, int percentAreWalls, int entitySize)
         mColors.push_back(sf::Color(rand(),rand(),rand()));
 
     InitializeMap();
+    MakeNodes();
     RandomFillMap();
 }
 
@@ -35,8 +36,9 @@ Map::~Map()
     {
         for( y = 0; y < mMapSize.y; y++ )
         {
-            delete mMap[x][y];
+            mMap[x].erase(mMap[x].begin()+y);
         }
+        mMap.erase(mMap.begin()+x);
     }
 }
 
@@ -60,16 +62,12 @@ void Map::InitializeMap()
         for( y = 0; y < mMapSize.y; y++ )
         {
             MapEntity* ent = new MapEntity(this);
+            ent->SetPosition(sf::Vector2i(x*mEntitySize,y*mEntitySize));
             column.push_back(ent);
-            column[y]->SetPosition(sf::Vector2i(x*mEntitySize,y*mEntitySize));
-            column[y]->SetSize(mEntitySize);
-            int value = rand()%2;
-            column[y]->SetString(to_string(value));
         }
         mMap.push_back(column);
         column.clear();
     }
-    
 }
 
 void Map::RandomFillMap()
@@ -85,41 +83,60 @@ void Map::RandomFillMap()
                 mMap[x][y]->SetBorder();
             }
             // Else, fill with a wall a random percent of the time
-            else
+            else if(!mMap[x][y]->IsNode())
             {
                 mapMiddle = (mMapSize.x / 2);
                 
                 if(x == mapMiddle)
                 {
-                    mMap[x][y]->SetActive(false);
+                    mMap[x][y]->SetVisible(false);
                 }
                 else
                 {
-                    mMap[x][y]->SetActive(RandomPercent(mPercentAreWalls));
+                    if(!RandomPercent(mPercentAreWalls))
+                    {
+                        mMap[x][y]->SetVisible(false);
+                    }
                 }
             }
         }
     }
 }
 
-//void Map::MakeCaverns()
-//{
-//    // By initilizing column in the outter loop, its only created ONCE
-//    for(int column=0, row=0; row <= mMapHeight-1; row++)
-//    {
-//        for(column = 0; column <= mMapWidth-1; column++)
-//        {
-//            mMap[column][row] = PlaceWallLogic(column,row);
-//        }
-//    }
-//}
+void Map::MakeNodes()
+{
+    //Top Left Node
+    mMap[3][3]->SetNode();
+    mMap[3][4]->SetNode();
+    mMap[4][3]->SetNode();
+    mMap[4][4]->SetNode();
+    
+    //Top Right Node
+    mMap[mMapSize.x-4][3]->SetNode();
+    mMap[mMapSize.x-4][4]->SetNode();
+    mMap[mMapSize.x-5][3]->SetNode();
+    mMap[mMapSize.x-5][4]->SetNode();
+    
+    //Bottom Left Node
+    mMap[3][mMapSize.y-4]->SetNode();
+    mMap[3][mMapSize.y-5]->SetNode();
+    mMap[4][mMapSize.y-4]->SetNode();
+    mMap[4][mMapSize.y-5]->SetNode();
+    
+    //Bottom Right Node
+    mMap[mMapSize.x-4][mMapSize.y-4]->SetNode();
+    mMap[mMapSize.x-4][mMapSize.y-5]->SetNode();
+    mMap[mMapSize.x-5][mMapSize.y-4]->SetNode();
+    mMap[mMapSize.x-5][mMapSize.y-5]->SetNode();
+    
+}
 
 int Map::PlaceWallLogic(int x,int y)
 {
     int numWalls = GetAdjacentWalls(x,y,1,1);
     
     
-    if(mMap[x][y]->IsActive())
+    if(mMap[x][y]->IsVisible())
     {
         if( numWalls >= 4 )
         {
@@ -129,7 +146,6 @@ int Map::PlaceWallLogic(int x,int y)
         {
             return 0;
         }
-        
     }
     else
     {
@@ -171,16 +187,16 @@ int Map::GetAdjacentWalls(int x,int y,int scopeX,int scopeY)
 
 bool Map::IsEntity(sf::Vector2i point)
 {
-    if( mMap[point.x][point.y]->IsActive() )
+    if( mMap[point.x][point.y]->IsVisible() )
     {
         return true;
     }
-    
-    if( !mMap[point.x][point.y]->IsActive() )
-    {
-        return false;
-    }
     return false;
+}
+
+MapEntity* Map::GetEntity(sf::Vector2i point)
+{
+    return mMap[point.x][point.y];
 }
 
 bool Map::IsOutOfBounds(int x, int y)
@@ -217,7 +233,8 @@ void Map::CheckLeftPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(x,point.y);
         if(!IsOutOfBounds(x-1,point.y))
         {
-            if(IsEntity(nextEntity) && !mMap[x][point.y]->IsHex())
+            if(IsEntity(nextEntity) && !mMap[x][point.y]->IsHex() &&
+               !mMap[x][point.y]->IsNode())
                 pattern.append(mMap[x][point.y]->GetString());
             else
                 break;
@@ -236,11 +253,11 @@ void Map::CheckLeftPattern(sf::Vector2i point)
         std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
-            mMap[point.x-i][point.y]->SetActive(false);
+            mMap[point.x-i][point.y]->SetVisible(false);
         }
         mMap[point.x-(pattern.length()-1)][point.y]->SetString(hexString);
         mMap[point.x-(pattern.length()-1)][point.y]->UpdateColor(dec);
-        mMap[point.x-(pattern.length()-1)][point.y]->SetHex(true);
+        mMap[point.x-(pattern.length()-1)][point.y]->SetHex();
     }
 }
 void Map::CheckRightPattern(sf::Vector2i point)
@@ -252,7 +269,8 @@ void Map::CheckRightPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(x,point.y);
         if(!IsOutOfBounds(x+1,point.y))
         {
-            if(IsEntity(nextEntity) && !mMap[x][point.y]->IsHex())
+            if(IsEntity(nextEntity) && !mMap[x][point.y]->IsHex() &&
+               !mMap[x][point.y]->IsNode())
                 pattern.append(mMap[x][point.y]->GetString());
             else
                 break;
@@ -271,10 +289,10 @@ void Map::CheckRightPattern(sf::Vector2i point)
         std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
-            mMap[point.x+i][point.y]->SetActive(false);
+            mMap[point.x+i][point.y]->SetVisible(false);
         }
         mMap[point.x+(pattern.length()-1)][point.y]->SetString(hexString);
-        mMap[point.x+(pattern.length()-1)][point.y]->SetHex(true);
+        mMap[point.x+(pattern.length()-1)][point.y]->SetHex();
         mMap[point.x+(pattern.length()-1)][point.y]->UpdateColor(dec);
     }
 }
@@ -287,7 +305,8 @@ void Map::CheckUpPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(point.x,y);
         if(!IsOutOfBounds(point.x,y-1))
         {
-            if(IsEntity(nextEntity) && !mMap[point.x][y]->IsHex())
+            if(IsEntity(nextEntity) && !mMap[point.x][y]->IsHex() &&
+               !mMap[point.x][y]->IsNode())
                 pattern.append(mMap[point.x][y]->GetString());
             else
                 break;
@@ -306,10 +325,10 @@ void Map::CheckUpPattern(sf::Vector2i point)
         std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
-            mMap[point.x][point.y-i]->SetActive(false);
+            mMap[point.x][point.y-i]->SetVisible(false);
         }
         mMap[point.x][point.y-(pattern.length()-1)]->SetString(hexString);
-        mMap[point.x][point.y-(pattern.length()-1)]->SetHex(true);
+        mMap[point.x][point.y-(pattern.length()-1)]->SetHex();
         mMap[point.x][point.y-(pattern.length()-1)]->UpdateColor(dec);
     }
 }
@@ -322,7 +341,8 @@ void Map::CheckDownPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(point.x,y);
         if(!IsOutOfBounds(point.x,y+1))
         {
-            if(IsEntity(nextEntity) && !mMap[point.x][y]->IsHex())
+            if(IsEntity(nextEntity) && !mMap[point.x][y]->IsHex() &&
+               !mMap[point.x][y]->IsNode())
                 pattern.append(mMap[point.x][y]->GetString());
             else
                 break;
@@ -341,12 +361,31 @@ void Map::CheckDownPattern(sf::Vector2i point)
         std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
-            mMap[point.x][point.y+i]->SetActive(false);
+            mMap[point.x][point.y+i]->SetVisible(false);
         }
         mMap[point.x][point.y+(pattern.length()-1)]->SetString(hexString);
         mMap[point.x][point.y+(pattern.length()-1)]->UpdateColor(dec);
-        mMap[point.x][point.y+(pattern.length()-1)]->SetHex(true);
+        mMap[point.x][point.y+(pattern.length()-1)]->SetHex();
     }
+}
+
+int Map::GetScore()
+{
+    int score = 0;
+    unsigned long long int dec;
+    for(int x = 0,y = 0; x < mMapSize.x; x++ )
+    {
+        for( y = 0; y < mMapSize.y; y++ )
+        {
+            if(mMap[x][y]->IsHex())
+            {
+                string s = mMap[x][y]->GetString();
+                dec = strtoull(s.c_str(),NULL,16);
+                score += dec;
+            }
+        }
+    }
+    return score;
 }
 
 sf::Vector2i Map::PixelToMapCoord(sf::Vector2i point)

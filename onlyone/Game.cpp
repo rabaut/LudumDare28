@@ -7,32 +7,24 @@
 //
 
 #include "Game.h"
-#include "StateSplash.h"
 #include "StateMenu.h"
 #include "StatePlay.h"
 
-Game::Game(InputManager* inputManager)
+Game::Game()
 {
-    mInputManager = inputManager;
     mCurrentState = NULL;
     mStateID = STATE_NULL;
     mNextState = STATE_NULL;
 }
 
-Game::~Game()
-{
-    
-}
-
 void Game::Start()
 {
-    mCurrentState = new StateSplash(this);
-    mStateID = STATE_SPLASH;
+    mCurrentState = new StateMenu(this);
+    mStateID = STATE_MENU;
 }
 
 void Game::Update()
 {
-    //std::cout << mStateID << std::endl;
     UpdateState();
     if(mCurrentState)
         mCurrentState->Update();
@@ -63,10 +55,6 @@ void Game::UpdateState()
         //change the state
         switch( mNextState )
         {
-            case STATE_SPLASH:
-                mCurrentState = new StateSplash(this);
-                break;
-                
             case STATE_MENU:
                 mCurrentState = new StateMenu(this);
                 break;

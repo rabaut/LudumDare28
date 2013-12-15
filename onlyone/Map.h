@@ -25,6 +25,7 @@ public:
     void Render(sf::RenderWindow* window);
     
     bool IsEntity(sf::Vector2i point);
+    MapEntity* GetEntity(sf::Vector2i point);
     
     void CheckLeftPattern(sf::Vector2i point);
     void CheckRightPattern(sf::Vector2i point);
@@ -41,6 +42,8 @@ public:
     sf::Vector2f MapCoordToPixel(sf::Vector2i point);
     sf::Vector2f MapCoordToPixel(int x, int y);
     
+    int GetScore();
+    
 private:
     Map();
     void MakeCaverns();
@@ -51,6 +54,7 @@ private:
     void InitializeMap();
     void RandomFillMap();
     bool RandomPercent(int percent);
+    void MakeNodes();
     
     std::vector<std::vector<MapEntity*>> mMap;
     sf::Vector2i mMapSize;

@@ -22,8 +22,10 @@ public:
     virtual void Render(sf::RenderWindow* window);
     
 private:
-    sf::Texture mMenuTexture;
-    sf::Sprite mMenuSprite;
+    sf::Texture mTexture;
+    sf::Sprite mSprite;
+    sf::Text mText;
+    sf::Font mFont;
 
 };
 

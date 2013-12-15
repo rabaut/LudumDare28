@@ -16,16 +16,18 @@ StateMenu::StateMenu(Game* game) : State(game)
 
 void StateMenu::Initialize()
 {
-    if(!mMenuTexture.loadFromFile(resourcePath() + "mainMenu.png"))
-        std::cout << "Could not load MainMenu.png" << std::endl;
-    else
-        mMenuSprite.setTexture(mMenuTexture);
+    mTexture.loadFromFile(resourcePath() + "mainMenu.png");
+    mFont.loadFromFile(resourcePath() + "UbuntuMono.ttf");
+    mText.setFont(mFont);
+    mText.setString("Press Enter");
+    mText.setCharacterSize(20);
+    mText.setPosition(345,520);
+    mSprite.setTexture(mTexture);
 }
 
 void StateMenu::Update()
 {
-    InputManager* input = mGame->GetInputManager();
-    if(input->isKeyPressed(sf::Keyboard::Return))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
     {
         mGame->SetState(Game::STATE_PLAY);
     }
@@ -33,5 +35,7 @@ void StateMenu::Update()
 
 void StateMenu::Render(sf::RenderWindow* window)
 {
-    window->draw(mMenuSprite);
+    mText.setColor(sf::Color(rand(),rand(),rand()));
+    window->draw(mSprite);
+    window->draw(mText);
 }

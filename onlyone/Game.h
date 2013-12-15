@@ -11,21 +11,18 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "InputManager.h"
 
 class State;
 
 class Game
 {
 public:
-    Game(InputManager* inputManager);
-    ~Game();
+    Game();
     
     enum States
     {
         STATE_NULL,
         STATE_EXIT,
-        STATE_SPLASH,
         STATE_MENU,
         STATE_PLAY,
     };
@@ -38,16 +35,12 @@ public:
     void SetState(States nextState);
     State* GetState();
     
-    InputManager* GetInputManager() {return mInputManager;}
-    
 private:
-    Game();
-    
-    InputManager* mInputManager;
     //! Pointer to the current state
     State* mCurrentState;
     int mStateID;
     int mNextState;
+    double mScore;
     
     void UpdateState();
 };
