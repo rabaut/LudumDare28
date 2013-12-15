@@ -16,7 +16,7 @@ int main()
     const sf::Vector2i ScreenDimensions(800,600);
     
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode(ScreenDimensions.x,ScreenDimensions.y),"YOU ONLY GET 1");
+    sf::RenderWindow window(sf::VideoMode(ScreenDimensions.x,ScreenDimensions.y),"YOU ONLY GET 1111");
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
     window.setMouseCursorVisible(false);

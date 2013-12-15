@@ -25,7 +25,6 @@ public:
         STATE_EXIT,
         STATE_MENU,
         STATE_PLAY,
-        STATE_LDRBRD
     };
     
     void Start();
@@ -35,19 +34,11 @@ public:
     void SetState(States nextState);
     State* GetState();
     
-    void UpdateLdrBrd(std::string symbolsFound, double timeLeft);
-    std::string GetLdrBrd() {return mLeaderBoard;}
-    
-    void SetUsername(std::string name) {mUsername = name;}
-    
 private:
     //! Pointer to the current state
     State* mCurrentState;
     int mStateID;
     int mNextState;
-    std::string mUsername;
-    std::string mLeaderBoard;
-    bool mFreshBoard;
     
     void UpdateState();
 };

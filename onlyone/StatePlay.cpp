@@ -26,18 +26,25 @@ void StatePlay::Initialize()
     mFound.setFont(mFont);
     mTimeLeft.setFont(mFont);
     mFound.setPosition(20, 550);
-    mTimeLeft.setPosition(600,550);
+    mTimeLeft.setPosition(570,550);
     mFound.setCharacterSize(20);
     mTimeLeft.setCharacterSize(20);
     mFound.setColor(sf::Color::Black);
     mTimeLeft.setColor(sf::Color::Black);
     mGameOver.setFont(mFont);
-    mGameOver.setCharacterSize(50);
+    mGameOver.setCharacterSize(100);
     mGameOver.setString("GAME OVER");
-    mGameOver.setPosition(270, 220);
+    mGameOver.setPosition(190, 120);
+    mInstrText.setFont(mFont);
+    mInstrText.setString("ENT to Play Again\n        or\n  ESC to Give Up");
+    mInstrText.setCharacterSize(30);
+    mInstrText.setPosition(265,280);
+    mInstrText.setColor(sf::Color::Black);
+    mInstrText.setStyle(sf::Text::Style::Bold);
     mLastUpdate = mClock.getElapsedTime();
     mMusic.openFromFile(resourcePath() + "recording.wav");
     mMusic.play();
+    mMusic.setLoop(true);
     mBuffer.loadFromFile(resourcePath() + "gameover.wav");
 }
 
@@ -48,35 +55,37 @@ void StatePlay::Update()
     {
         double timeRem = 60.0 - (currentTime.asMicroseconds() * 1e-6);
         std::string symbolsFound = mMap.GetFoundString();
-        if(timeRem <= 55 || (symbolsFound.find_first_not_of(' ') == std::string::npos))
+        if(timeRem <= 0 || (symbolsFound.find_first_not_of(' ') ==
+                             std::string::npos))
         {
+            timeRem = 0.0;
             mIsGameOver = true;
             mGameOverAnimTimer = currentTime.asSeconds();
             mMusic.stop();
             mSound.setBuffer(mBuffer);
             mSound.play();
-            std::string symbolsFound = mMap.GetFoundString();
-            mGame->UpdateLdrBrd(symbolsFound, timeRem);
         }
         mTimeLeft.setString("Time Remaining: " + std::to_string(timeRem));
         mFound.setString("Symbols Remaining: " + mMap.GetFoundString());
         sf::Time dt = currentTime - mLastUpdate;
         mPlayer.Update(dt.asMicroseconds());
     }
-    else if(currentTime.asSeconds() - mGameOverAnimTimer > 3)
-        mGame->SetState(Game::States::STATE_LDRBRD);
-
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+    {
+        mGame->SetState(Game::States::STATE_PLAY);
+    }
 }
 
 void StatePlay::Render(sf::RenderWindow* window)
 {
-    if(mIsGameOver)
-    {
-        mGameOver.setColor(sf::Color(rand(),rand(),rand()));
-        window->draw(mGameOver);
-    }
     mMap.Render(window);
     mPlayer.Render(window);
     window->draw(mTimeLeft);
     window->draw(mFound);
+    if(mIsGameOver)
+    {
+        mGameOver.setColor(sf::Color(rand(),rand(),rand()));
+        window->draw(mGameOver);
+        window->draw(mInstrText);
+    }
 }

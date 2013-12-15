@@ -29,6 +29,7 @@ private:
     Map mMap;
     Player mPlayer;
     sf::Text mFound;
+    sf::Text mInstrText;
     sf::Text mTimeLeft;
     sf::Text mGameOver;
     sf::Font mFont;

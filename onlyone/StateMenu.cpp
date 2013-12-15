@@ -19,26 +19,17 @@ void StateMenu::Initialize()
     mTexture.loadFromFile(resourcePath() + "mainMenu.png");
     mFont.loadFromFile(resourcePath() + "UbuntuMono.ttf");
     mText.setFont(mFont);
-    mText.setString("  Enter to Play\nL for Leaderboard\n   ESC to Quit");
-    mText.setCharacterSize(20);
+    mText.setString("Press Enter");
+    mText.setCharacterSize(30);
     mText.setPosition(300,500);
+    mText.setStyle(sf::Text::Style::Bold);
     mSprite.setTexture(mTexture);
 }
 
 void StateMenu::Update()
 {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-    {
-        std::cout << "Enter Username: " << std::endl;
-        std::string s;
-        std::cin >> s;
-        mGame->SetUsername(s);
         mGame->SetState(Game::STATE_PLAY);
-    }
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::L))
-    {
-        mGame->SetState(Game::STATE_LDRBRD);
-    }
 }
 
 void StateMenu::Render(sf::RenderWindow* window)
