@@ -16,8 +16,9 @@ Player::Player(Map* map) : MapEntity(map)
     mText.setString("1");
     mText.setPosition(mMap->MapCoordToPixel(mMap->GetPlayerSpawn()));
     mText.setCharacterSize(mMap->GetEntitySize());
-    mText.setColor(mMap->GetPlayerColor());
+    mText.setColor(sf::Color(rand(),rand(),rand()));
     mText.setFont(mFont);
+    mText.setStyle(sf::Text::Style::Bold);
 }
 
 void Player::Update(InputManager* input)

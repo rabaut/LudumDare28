@@ -10,6 +10,7 @@
 #include "ResourcePath.hpp"
 #include <sstream>
 #include <algorithm>
+#include <stdio.h>
 
 using namespace std;
 
@@ -62,12 +63,13 @@ void Map::InitializeMap()
             column.push_back(ent);
             column[y]->SetPosition(sf::Vector2i(x*mEntitySize,y*mEntitySize));
             column[y]->SetSize(mEntitySize);
-            column[y]->SetString("0");
-            column[y]->UpdateColor();
+            int value = rand()%2;
+            column[y]->SetString(to_string(value));
         }
         mMap.push_back(column);
         column.clear();
     }
+    
 }
 
 void Map::RandomFillMap()
@@ -77,12 +79,10 @@ void Map::RandomFillMap()
     {
         for( y = 0; y < mMapSize.y; y++ )
         {
-            // If coordinants lie on the the edge of the map (creates a black border)
+            // If coordinants lie on the the edge of the map make them a border
             if(x == 0 || y == 0 || x == mMapSize.x-1 || y == mMapSize.y-1)
             {
-                mMap[x][y]->SetActive(true);
-                mMap[x][y]->SetColor(sf::Color::Black);
-                mMap[x][y]->SetString("*");
+                mMap[x][y]->SetBorder();
             }
             // Else, fill with a wall a random percent of the time
             else
@@ -217,7 +217,7 @@ void Map::CheckLeftPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(x,point.y);
         if(!IsOutOfBounds(x-1,point.y))
         {
-            if(IsEntity(nextEntity))
+            if(IsEntity(nextEntity) && !mMap[x][point.y]->IsHex())
                 pattern.append(mMap[x][point.y]->GetString());
             else
                 break;
@@ -230,15 +230,17 @@ void Map::CheckLeftPattern(sf::Vector2i point)
     pattern.shrink_to_fit();
     if(pattern.length() > 1)
     {
-        unsigned long long int ulli;
-        ulli = strtoul(pattern.c_str(), NULL, 2);
-        string hexString = to_string(ulli);
+        unsigned long long int dec;
+        dec = strtoul(pattern.c_str(), NULL, 2);
+        char hexString[5];
+        std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
             mMap[point.x-i][point.y]->SetActive(false);
         }
         mMap[point.x-(pattern.length()-1)][point.y]->SetString(hexString);
-        mMap[point.x-(pattern.length()-1)][point.y]->UpdateColor();
+        mMap[point.x-(pattern.length()-1)][point.y]->UpdateColor(dec);
+        mMap[point.x-(pattern.length()-1)][point.y]->SetHex(true);
     }
 }
 void Map::CheckRightPattern(sf::Vector2i point)
@@ -250,7 +252,7 @@ void Map::CheckRightPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(x,point.y);
         if(!IsOutOfBounds(x+1,point.y))
         {
-            if(IsEntity(nextEntity))
+            if(IsEntity(nextEntity) && !mMap[x][point.y]->IsHex())
                 pattern.append(mMap[x][point.y]->GetString());
             else
                 break;
@@ -263,15 +265,17 @@ void Map::CheckRightPattern(sf::Vector2i point)
     pattern.shrink_to_fit();
     if(pattern.length() > 1)
     {
-        unsigned long long int ulli;
-        ulli = strtoul(pattern.c_str(), NULL, 2);
-        string hexString = to_string(ulli);
+        unsigned long long int dec;
+        dec = strtoul(pattern.c_str(), NULL, 2);
+        char hexString[5];
+        std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
             mMap[point.x+i][point.y]->SetActive(false);
         }
         mMap[point.x+(pattern.length()-1)][point.y]->SetString(hexString);
-        mMap[point.x+(pattern.length()-1)][point.y]->UpdateColor();
+        mMap[point.x+(pattern.length()-1)][point.y]->SetHex(true);
+        mMap[point.x+(pattern.length()-1)][point.y]->UpdateColor(dec);
     }
 }
 void Map::CheckUpPattern(sf::Vector2i point)
@@ -283,7 +287,7 @@ void Map::CheckUpPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(point.x,y);
         if(!IsOutOfBounds(point.x,y-1))
         {
-            if(IsEntity(nextEntity))
+            if(IsEntity(nextEntity) && !mMap[point.x][y]->IsHex())
                 pattern.append(mMap[point.x][y]->GetString());
             else
                 break;
@@ -296,15 +300,17 @@ void Map::CheckUpPattern(sf::Vector2i point)
     pattern.shrink_to_fit();
     if(pattern.length() > 1)
     {
-        unsigned long long int ulli;
-        ulli = strtoul(pattern.c_str(), NULL, 2);
-        string hexString = to_string(ulli);
+        unsigned long long int dec;
+        dec = strtoul(pattern.c_str(), NULL, 2);
+        char hexString[5];
+        std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
             mMap[point.x][point.y-i]->SetActive(false);
         }
         mMap[point.x][point.y-(pattern.length()-1)]->SetString(hexString);
-        mMap[point.x][point.y-(pattern.length()-1)]->UpdateColor();
+        mMap[point.x][point.y-(pattern.length()-1)]->SetHex(true);
+        mMap[point.x][point.y-(pattern.length()-1)]->UpdateColor(dec);
     }
 }
 void Map::CheckDownPattern(sf::Vector2i point)
@@ -316,7 +322,7 @@ void Map::CheckDownPattern(sf::Vector2i point)
         sf::Vector2i nextEntity(point.x,y);
         if(!IsOutOfBounds(point.x,y+1))
         {
-            if(IsEntity(nextEntity))
+            if(IsEntity(nextEntity) && !mMap[point.x][y]->IsHex())
                 pattern.append(mMap[point.x][y]->GetString());
             else
                 break;
@@ -329,15 +335,17 @@ void Map::CheckDownPattern(sf::Vector2i point)
     pattern.shrink_to_fit();
     if(pattern.length() > 1)
     {
-        unsigned long long int ulli;
-        ulli = strtoul(pattern.c_str(), NULL, 2);
-        string hexString = to_string(ulli);
+        unsigned long long int dec;
+        dec = strtoul(pattern.c_str(), NULL, 2);
+        char hexString[5];
+        std::snprintf(hexString, 7, "%llX", dec);
         for(int i = 1; i < pattern.length()-1; i++)
         {
             mMap[point.x][point.y+i]->SetActive(false);
         }
         mMap[point.x][point.y+(pattern.length()-1)]->SetString(hexString);
-        mMap[point.x][point.y+(pattern.length()-1)]->UpdateColor();
+        mMap[point.x][point.y+(pattern.length()-1)]->UpdateColor(dec);
+        mMap[point.x][point.y+(pattern.length()-1)]->SetHex(true);
     }
 }
 

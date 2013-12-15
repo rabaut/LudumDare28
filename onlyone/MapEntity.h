@@ -25,10 +25,16 @@ public:
     void SetActive(bool active) {mActive = active;}
     bool IsActive() {return mActive;}
     
+    void SetHex(bool hex);
+    bool IsHex() {return mHex;}
+    
+    void SetBorder();
+    bool IsBorder() {return mBorder;}
+    
     void SetString(sf::String string) {mText.setString(string);}
     sf::String GetString() {return mText.getString();}
     
-    void UpdateColor();
+    void UpdateColor(int n);
     
     void SetPosition(sf::Vector2i pos);
     sf::Vector2i GetPosition();
@@ -36,14 +42,15 @@ public:
     void SetSize(int size) {mText.setCharacterSize(size);}
     int GetSize() {return mText.getCharacterSize();}
     
-    virtual void Render(sf::RenderWindow* window) {
-        if(mActive) window->draw(mText);}
+    virtual void Render(sf::RenderWindow* window);
     
 protected:
     sf::Text mText;
     sf::Font mFont;
     Map* mMap;
     bool mActive;
+    bool mHex;
+    bool mBorder;
     
 private:
     MapEntity();

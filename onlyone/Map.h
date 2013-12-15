@@ -32,7 +32,6 @@ public:
     void CheckDownPattern(sf::Vector2i point);
     
     sf::Vector2i GetPlayerSpawn() {return mPlayerSpawn;}
-    sf::Color GetPlayerColor() {return mPlayerColor;}
     
     int GetEntitySize() {return mEntitySize;}
     sf::Color GetEntityColor(int n) {return mColors.at(n);}
@@ -59,7 +58,6 @@ private:
     int mEntitySize;
     
     sf::Vector2i mPlayerSpawn;
-    sf::Color mPlayerColor;
     std::vector<sf::Color> mColors;
 };
 
