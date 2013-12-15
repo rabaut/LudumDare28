@@ -58,10 +58,9 @@ void StateLdrBrd::Initialize()
     mBoardText.setPosition(0,0);
     mBoardText.setColor(sf::Color::Black);
     mInstrText.setFont(mFont);
-    mInstrText.setString("  P to Play\nESC to Quit");
+    mInstrText.setString(" P to Play\nESC to Quit");
     mInstrText.setCharacterSize(20);
-    mInstrText.setPosition(300,500);
-    mInstrText.setColor(sf::Color::Black);
+    mInstrText.setPosition(320,500);
 }
 
 void StateLdrBrd::Update()
@@ -75,5 +74,6 @@ void StateLdrBrd::Update()
 void StateLdrBrd::Render(sf::RenderWindow* window)
 {
     window->draw(mBoardText);
+    mInstrText.setColor(sf::Color(rand(),rand(),rand()));
     window->draw(mInstrText);
 }
