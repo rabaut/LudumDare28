@@ -271,20 +271,20 @@ void Map::CheckRightPattern(sf::Vector2i point)
             mMap[point.x+i][point.y]->SetActive(false);
         }
         mMap[point.x+(pattern.length()-1)][point.y]->SetString(hexString);
-        mMap[point.x-(pattern.length()-1)][point.y]->UpdateColor();
+        mMap[point.x+(pattern.length()-1)][point.y]->UpdateColor();
     }
 }
 void Map::CheckUpPattern(sf::Vector2i point)
 {
     string pattern("");
     //Check in left direction for pattern
-    for(int x = point.x-1; x > point.x-4; x--)
+    for(int y = point.y-1; y > point.y-4; y--)
     {
-        sf::Vector2i nextEntity(x,point.y);
-        if(!IsOutOfBounds(x-1,point.y))
+        sf::Vector2i nextEntity(point.x,y);
+        if(!IsOutOfBounds(point.x,y-1))
         {
             if(IsEntity(nextEntity))
-                pattern.append(mMap[x][point.y]->GetString());
+                pattern.append(mMap[point.x][y]->GetString());
             else
                 break;
         }
@@ -301,30 +301,30 @@ void Map::CheckUpPattern(sf::Vector2i point)
         string hexString = to_string(ulli);
         for(int i = 1; i < pattern.length()-1; i++)
         {
-            mMap[point.x-i][point.y]->SetActive(false);
+            mMap[point.x][point.y-i]->SetActive(false);
         }
-        mMap[point.x-(pattern.length()-1)][point.y]->SetString(hexString);
-        mMap[point.x-(pattern.length()-1)][point.y]->UpdateColor();
+        mMap[point.x][point.y-(pattern.length()-1)]->SetString(hexString);
+        mMap[point.x][point.y-(pattern.length()-1)]->UpdateColor();
     }
 }
 void Map::CheckDownPattern(sf::Vector2i point)
 {
     string pattern("");
     //Check in left direction for pattern
-    for(int x = point.x-1; x > point.x-4; x--)
+    for(int y = point.y+1; y < point.y+4; y++)
     {
-        sf::Vector2i nextEntity(x,point.y);
-        if(!IsOutOfBounds(x-1,point.y))
+        sf::Vector2i nextEntity(point.x,y);
+        if(!IsOutOfBounds(point.x,y+1))
         {
             if(IsEntity(nextEntity))
-                pattern.append(mMap[x][point.y]->GetString());
+                pattern.append(mMap[point.x][y]->GetString());
             else
                 break;
         }
         else
             break;
     }
-    pattern.push_back('1');
+    pattern.insert(pattern.begin(),'1');
     std::remove_if(pattern.begin(),pattern.end(), IsBorder);
     pattern.shrink_to_fit();
     if(pattern.length() > 1)
@@ -334,10 +334,10 @@ void Map::CheckDownPattern(sf::Vector2i point)
         string hexString = to_string(ulli);
         for(int i = 1; i < pattern.length()-1; i++)
         {
-            mMap[point.x-i][point.y]->SetActive(false);
+            mMap[point.x][point.y+i]->SetActive(false);
         }
-        mMap[point.x-(pattern.length()-1)][point.y]->SetString(hexString);
-        mMap[point.x-(pattern.length()-1)][point.y]->UpdateColor();
+        mMap[point.x][point.y+(pattern.length()-1)]->SetString(hexString);
+        mMap[point.x][point.y+(pattern.length()-1)]->UpdateColor();
     }
 }
 
