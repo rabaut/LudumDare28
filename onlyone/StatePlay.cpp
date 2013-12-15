@@ -33,7 +33,6 @@ void StatePlay::Initialize()
     mTimeLeft.setColor(sf::Color::Black);
     mGameOver.setFont(mFont);
     mGameOver.setCharacterSize(100);
-    mGameOver.setString("GAME OVER");
     mGameOver.setPosition(190, 120);
     mInstrText.setFont(mFont);
     mInstrText.setString("ENT to Play Again\n        or\n  ESC to Give Up");
@@ -45,7 +44,8 @@ void StatePlay::Initialize()
     mMusic.openFromFile(resourcePath() + "recording.wav");
     mMusic.play();
     mMusic.setLoop(true);
-    mBuffer.loadFromFile(resourcePath() + "gameover.wav");
+    mLoseBuffer.loadFromFile(resourcePath() + "gameover.wav");
+    mWinBuffer.loadFromFile(resourcePath() + "gamewon.wav");
 }
 
 void StatePlay::Update()
@@ -55,14 +55,21 @@ void StatePlay::Update()
     {
         double timeRem = 60.0 - (currentTime.asMicroseconds() * 1e-6);
         std::string symbolsFound = mMap.GetFoundString();
-        if(timeRem <= 0 || (symbolsFound.find_first_not_of(' ') ==
-                             std::string::npos))
+        if(timeRem <= 0)
         {
             timeRem = 0.0;
             mIsGameOver = true;
-            mGameOverAnimTimer = currentTime.asSeconds();
+            mGameOver.setString("GAME OVER");
             mMusic.stop();
-            mSound.setBuffer(mBuffer);
+            mSound.setBuffer(mLoseBuffer);
+            mSound.play();
+        }
+        if(symbolsFound.find_first_not_of(' ') == std::string::npos)
+        {
+            mIsGameOver = true;
+            mGameOver.setString("YOU WON!!");
+            mMusic.stop();
+            mSound.setBuffer(mWinBuffer);
             mSound.play();
         }
         mTimeLeft.setString("Time Remaining: " + std::to_string(timeRem));
@@ -85,7 +92,7 @@ void StatePlay::Render(sf::RenderWindow* window)
     if(mIsGameOver)
     {
         mGameOver.setColor(sf::Color(rand(),rand(),rand()));
-        window->draw(mGameOver);
         window->draw(mInstrText);
+        window->draw(mGameOver);
     }
 }

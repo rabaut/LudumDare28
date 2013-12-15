@@ -36,11 +36,11 @@ private:
     sf::Clock mClock;
     sf::Time mLastUpdate;
     sf::Music mMusic;
-    sf::SoundBuffer mBuffer;
+    sf::SoundBuffer mLoseBuffer;
+    sf::SoundBuffer mWinBuffer;
     sf::Sound mSound;
     
     bool mIsGameOver;
-    double mGameOverAnimTimer;
 };
 
 #endif /* defined(__onlyone__StatePlay__) */
