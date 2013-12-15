@@ -9,6 +9,6 @@ You play as a 1 that can pair up with up to 3 other binary numbers to form a sin
 
 Score is calculated by adding up all the currently created hex values. There are bonus items  
 denoted by a @ that are converted to a hex value between A-F when touched. Manipulate the map  
-by reducing obstacles into hex values!  
+by reducing obstacles into hex values to help you reach the bonus items!  
 
 Using SFML 2.1 and C++
