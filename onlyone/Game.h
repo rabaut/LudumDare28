@@ -25,7 +25,6 @@ public:
         STATE_EXIT,
         STATE_MENU,
         STATE_PLAY,
-        STATE_END,
         STATE_LDRBRD
     };
     

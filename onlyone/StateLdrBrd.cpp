@@ -52,11 +52,16 @@ void StateLdrBrd::Initialize()
     }
     board.append(mGame->GetLdrBrd());
     mFont.loadFromFile(resourcePath() + "UbuntuMono.ttf");
-    mText.setFont(mFont);
-    mText.setString(board);
-    mText.setCharacterSize(20);
-    mText.setPosition(0,0);
-    mText.setColor(sf::Color::Black);
+    mBoardText.setFont(mFont);
+    mBoardText.setString(board);
+    mBoardText.setCharacterSize(20);
+    mBoardText.setPosition(0,0);
+    mBoardText.setColor(sf::Color::Black);
+    mInstrText.setFont(mFont);
+    mInstrText.setString("  P to Play\nESC to Quit");
+    mInstrText.setCharacterSize(20);
+    mInstrText.setPosition(300,500);
+    mInstrText.setColor(sf::Color::Black);
 }
 
 void StateLdrBrd::Update()
@@ -69,6 +74,6 @@ void StateLdrBrd::Update()
 
 void StateLdrBrd::Render(sf::RenderWindow* window)
 {
-    //mText.setString("TEST");
-    window->draw(mText);
+    window->draw(mBoardText);
+    window->draw(mInstrText);
 }

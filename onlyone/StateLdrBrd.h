@@ -22,7 +22,8 @@ public:
     virtual void Render(sf::RenderWindow* window);
     
 private:
-    sf::Text mText;
+    sf::Text mBoardText;
+    sf::Text mInstrText;
     sf::Font mFont;
 };
 

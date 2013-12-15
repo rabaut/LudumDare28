@@ -10,7 +10,6 @@
 #include "StateMenu.h"
 #include "StatePlay.h"
 #include "StateLdrBrd.h"
-#include "StateEnd.h"
 #include "ResourcePath.hpp"
 #include <fstream>
 #include <sstream>
@@ -65,10 +64,6 @@ void Game::UpdateState()
             case STATE_PLAY:
                 delete mCurrentState;
                 mCurrentState = new StatePlay(this);
-                break;
-            case STATE_END:
-                delete mCurrentState;
-                mCurrentState = new StateEnd(this);
                 break;
             case STATE_LDRBRD:
                 delete mCurrentState;

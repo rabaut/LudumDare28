@@ -30,10 +30,16 @@ private:
     Player mPlayer;
     sf::Text mFound;
     sf::Text mTimeLeft;
+    sf::Text mGameOver;
     sf::Font mFont;
     sf::Clock mClock;
     sf::Time mLastUpdate;
     sf::Music mMusic;
+    sf::SoundBuffer mBuffer;
+    sf::Sound mSound;
+    
+    bool mIsGameOver;
+    double mGameOverAnimTimer;
 };
 
 #endif /* defined(__onlyone__StatePlay__) */
