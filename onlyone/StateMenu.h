@@ -25,7 +25,6 @@ private:
     sf::Texture mTexture;
     sf::Sprite mSprite;
     sf::Text mText;
-    sf::Font mFont;
 
 };
 

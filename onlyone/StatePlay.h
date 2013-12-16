@@ -32,7 +32,6 @@ private:
     sf::Text mInstrText;
     sf::Text mTimeLeft;
     sf::Text mGameOver;
-    sf::Font mFont;
     sf::Clock mClock;
     sf::Time mLastUpdate;
     sf::Music mMusic;

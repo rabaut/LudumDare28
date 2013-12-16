@@ -11,11 +11,13 @@
 #include <sstream>
 #include <algorithm>
 #include <stdio.h>
+#include "Game.h"
 
 using namespace std;
 
-Map::Map(int mapWidth, int mapHeight, int percentAreWalls, int entitySize)
+Map::Map(Game* game, int mapWidth, int mapHeight, int percentAreWalls, int entitySize)
 {
+    mGame = game;
     mEntitySize = entitySize;
     mMapSize = PixelToMapCoord(mapWidth, mapHeight);
     mPercentAreWalls = percentAreWalls;
@@ -393,6 +395,15 @@ void Map::SymbolFound(std::string symbol)
         mFoundString.replace(f, symbol.length(), " ");
 }
 
+sf::Font* Map::GetEntityFont()
+{
+    return mGame->GetSansFont();
+}
+
+sf::Font* Map::GetPlayerFont()
+{
+    return mGame->GetUbuntuFont();
+}
 
 void Map::PlayNode()
 {

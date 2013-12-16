@@ -18,15 +18,10 @@ class Player : public MapEntity
 public:
     Player(Map* map);
     
-    void Update(double dt);
+    void Update();
 
 private:
     Player();
-    
-    double mLastUpdate;
-    double mSpeed;
-    
-
 };
 
 #endif /* defined(__onlyone__Player__) */

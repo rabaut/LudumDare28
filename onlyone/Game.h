@@ -34,11 +34,16 @@ public:
     void SetState(States nextState);
     State* GetState();
     
+    sf::Font* GetUbuntuFont() {return mUFont;}
+    sf::Font* GetSansFont() {return mSFont;}
+    
 private:
     //! Pointer to the current state
     State* mCurrentState;
     int mStateID;
     int mNextState;
+    sf::Font* mUFont;
+    sf::Font* mSFont;
     
     void UpdateState();
 };

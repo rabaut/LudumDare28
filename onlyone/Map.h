@@ -17,10 +17,12 @@
 #include "MapEntity.h"
 #include "ResourcePath.hpp"
 
+class Game;
+
 class Map
 {
 public:
-    Map(int mapHeight=200, int mapWidth=200, int percentAreWalls=45, int entitySize=10);
+    Map(Game* game, int mapHeight=200, int mapWidth=200, int percentAreWalls=45, int entitySize=10);
     ~Map();
     
     void Render(sf::RenderWindow* window);
@@ -44,6 +46,9 @@ public:
     std::string GetFoundString() {return mFoundString;}
     
     void PlayNode();
+    
+    sf::Font* GetEntityFont();
+    sf::Font* GetPlayerFont();
     
 private:
     Map();
@@ -70,6 +75,8 @@ private:
     sf::SoundBuffer mNodeSound;
     
     sf::Sound mSound;
+        
+    Game* mGame;
 };
 
 #endif /* defined(__onlyone__Map__) */

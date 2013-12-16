@@ -16,6 +16,10 @@
 
 Game::Game()
 {
+    mUFont = new sf::Font();
+    mSFont = new sf::Font();
+    mUFont->loadFromFile(resourcePath() + "UbuntuMono.ttf");
+    mSFont->loadFromFile(resourcePath() + "sansation.ttf");
     mCurrentState = NULL;
     mStateID = STATE_NULL;
     mNextState = STATE_NULL;

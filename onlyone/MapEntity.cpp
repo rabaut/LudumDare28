@@ -15,8 +15,7 @@ MapEntity::MapEntity(Map* map)
 {
     mType = ENT_BIN;
     mMap = map;
-    mFont.loadFromFile(resourcePath() + "sansation.ttf");
-    mText.setFont(mFont);
+    mText.setFont(*map->GetEntityFont());
     int value = rand()%2;
     mText.setString(std::to_string(value));
     mText.setCharacterSize(map->GetEntitySize());

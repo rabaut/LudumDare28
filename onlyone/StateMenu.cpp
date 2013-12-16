@@ -17,8 +17,7 @@ StateMenu::StateMenu(Game* game) : State(game)
 void StateMenu::Initialize()
 {
     mTexture.loadFromFile(resourcePath() + "mainMenu.png");
-    mFont.loadFromFile(resourcePath() + "UbuntuMono.ttf");
-    mText.setFont(mFont);
+    mText.setFont(*mGame->GetUbuntuFont());
     mText.setString("Press Enter");
     mText.setCharacterSize(30);
     mText.setPosition(300,500);

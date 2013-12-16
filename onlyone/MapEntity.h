@@ -60,7 +60,6 @@ public:
     
 protected:
     sf::Text mText;
-    sf::Font mFont;
     bool mVisible;
     Map* mMap;
     EntType mType;

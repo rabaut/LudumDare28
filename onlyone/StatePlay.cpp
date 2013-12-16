@@ -8,7 +8,7 @@
 
 #include "StatePlay.h"
 
-StatePlay::StatePlay(Game* game) : State(game), mMap(800,550,25,10), mPlayer(&mMap)
+StatePlay::StatePlay(Game* game) : State(game), mMap(game,800,550,25,10), mPlayer(&mMap)
 {
     mGame = game;
     Initialize();
@@ -22,19 +22,18 @@ StatePlay::~StatePlay()
 void StatePlay::Initialize()
 {
     mIsGameOver = false;
-    mFont.loadFromFile(resourcePath() + "UbuntuMono.ttf");
-    mFound.setFont(mFont);
-    mTimeLeft.setFont(mFont);
+    mFound.setFont(*mGame->GetUbuntuFont());
+    mTimeLeft.setFont(*mGame->GetUbuntuFont());
     mFound.setPosition(20, 550);
     mTimeLeft.setPosition(570,550);
     mFound.setCharacterSize(20);
     mTimeLeft.setCharacterSize(20);
     mFound.setColor(sf::Color::White);
     mTimeLeft.setColor(sf::Color::White);
-    mGameOver.setFont(mFont);
+    mGameOver.setFont(*mGame->GetUbuntuFont());
     mGameOver.setCharacterSize(100);
     mGameOver.setPosition(190, 120);
-    mInstrText.setFont(mFont);
+    mInstrText.setFont(*mGame->GetUbuntuFont());
     mInstrText.setString("ENT to Play Again\n        or\n  ESC to Give Up");
     mInstrText.setCharacterSize(30);
     mInstrText.setPosition(265,280);
@@ -74,8 +73,12 @@ void StatePlay::Update()
         }
         mTimeLeft.setString("Time Remaining: " + std::to_string(timeRem));
         mFound.setString("Symbols Remaining: " + mMap.GetFoundString());
-        sf::Time dt = currentTime - mLastUpdate;
-        mPlayer.Update(dt.asMicroseconds());
+        
+        if(currentTime.asSeconds() - mLastUpdate.asSeconds() > .05)
+        {
+            mLastUpdate = currentTime;
+            mPlayer.Update();
+        }
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
     {

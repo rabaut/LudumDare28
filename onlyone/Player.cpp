@@ -11,19 +11,16 @@
 
 Player::Player(Map* map) : MapEntity(map)
 {
-    mFont.loadFromFile(resourcePath() + "UbuntuMono.ttf");
     mText.setString("1");
     mText.setPosition(mMap->GetPlayerSpawn());
     mText.setCharacterSize(mMap->GetEntitySize());
     mText.setColor(sf::Color::White);
-    mText.setFont(mFont);
+    mText.setFont(*mMap->GetPlayerFont());
     mText.setStyle(sf::Text::Style::Bold);
     mType = ENT_PLYR;
-    mLastUpdate = 0;
-    mSpeed = 2;
 }
 
-void Player::Update(double dt)
+void Player::Update()
 {
     sf::Vector2i newPos(mText.getPosition());
     
