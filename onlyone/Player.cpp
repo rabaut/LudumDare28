@@ -13,7 +13,7 @@ Player::Player(Map* map) : MapEntity(map)
 {
     mFont.loadFromFile(resourcePath() + "UbuntuMono.ttf");
     mText.setString("1");
-    mText.setPosition(mMap->MapCoordToPixel(mMap->GetPlayerSpawn()));
+    mText.setPosition(mMap->GetPlayerSpawn());
     mText.setCharacterSize(mMap->GetEntitySize());
     mText.setColor(sf::Color(rand(),rand(),rand()));
     mText.setFont(mFont);

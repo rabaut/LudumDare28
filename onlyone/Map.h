@@ -33,15 +33,13 @@ public:
     void CheckUpPattern(sf::Vector2i point);
     void CheckDownPattern(sf::Vector2i point);
     
-    sf::Vector2i GetPlayerSpawn() {return mPlayerSpawn;}
+    sf::Vector2f GetPlayerSpawn() {return mPlayerSpawn;}
     
     int GetEntitySize() {return mEntitySize;}
     sf::Color GetEntityColor(int n) {return mColors.at(n);}
     
     sf::Vector2i PixelToMapCoord(sf::Vector2i point);
     sf::Vector2i PixelToMapCoord(int x, int y);
-    sf::Vector2f MapCoordToPixel(sf::Vector2i point);
-    sf::Vector2f MapCoordToPixel(int x, int y);
     
     std::string GetFoundString() {return mFoundString;}
     
@@ -65,7 +63,7 @@ private:
     int mEntitySize;
     std::string mFoundString;
     
-    sf::Vector2i mPlayerSpawn;
+    sf::Vector2f mPlayerSpawn;
     std::vector<sf::Color> mColors;
     
     sf::SoundBuffer mTransSound;

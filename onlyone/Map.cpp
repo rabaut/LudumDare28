@@ -22,7 +22,8 @@ Map::Map(int mapWidth, int mapHeight, int percentAreWalls, int entitySize)
     // Symbols that need to be found
     mFoundString = "2 3 4 5 6 7 8 9 A B C D E F";
     
-    mPlayerSpawn = mMapSize/2;
+    mPlayerSpawn.x = mMapSize.x/2;
+    mPlayerSpawn.y = mMapSize.y/2;
 
     for(int i=0;i<16;i++)
         mColors.push_back(sf::Color(rand(),rand(),rand()));
@@ -398,13 +399,4 @@ sf::Vector2i Map::PixelToMapCoord(sf::Vector2i point)
 sf::Vector2i Map::PixelToMapCoord(int x, int y)
 {
     return sf::Vector2i(x/mEntitySize,y/mEntitySize);
-}
-sf::Vector2f Map::MapCoordToPixel(int x, int y)
-{
-    return sf::Vector2f(x*mEntitySize,y*mEntitySize);
-}
-
-sf::Vector2f Map::MapCoordToPixel(sf::Vector2i point)
-{
-    return sf::Vector2f(point.x*mEntitySize,point.y*mEntitySize);
 }
