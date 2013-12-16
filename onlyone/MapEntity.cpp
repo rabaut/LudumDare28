@@ -60,7 +60,7 @@ void MapEntity::SetBorder()
     mType = ENT_BORDER;
     mText.setString("*");
     mText.setStyle(sf::Text::Style::Bold);
-    mText.setColor(sf::Color::Black);
+    mText.setColor(sf::Color::White);
 }
 
 void MapEntity::SetNode()

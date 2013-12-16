@@ -29,8 +29,8 @@ void StatePlay::Initialize()
     mTimeLeft.setPosition(570,550);
     mFound.setCharacterSize(20);
     mTimeLeft.setCharacterSize(20);
-    mFound.setColor(sf::Color::Black);
-    mTimeLeft.setColor(sf::Color::Black);
+    mFound.setColor(sf::Color::White);
+    mTimeLeft.setColor(sf::Color::White);
     mGameOver.setFont(mFont);
     mGameOver.setCharacterSize(100);
     mGameOver.setPosition(190, 120);
@@ -38,7 +38,7 @@ void StatePlay::Initialize()
     mInstrText.setString("ENT to Play Again\n        or\n  ESC to Give Up");
     mInstrText.setCharacterSize(30);
     mInstrText.setPosition(265,280);
-    mInstrText.setColor(sf::Color::Black);
+    mInstrText.setColor(sf::Color::White);
     mInstrText.setStyle(sf::Text::Style::Bold);
     mLastUpdate = mClock.getElapsedTime();
     mMusic.openFromFile(resourcePath() + "recording.wav");

@@ -57,7 +57,7 @@ int main()
             Game.Update();
         }
         
-        window.clear(sf::Color::White);
+        window.clear(sf::Color::Black);
         Game.Render(&window);
         window.display();
     }

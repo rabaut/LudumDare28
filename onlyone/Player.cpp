@@ -15,7 +15,7 @@ Player::Player(Map* map) : MapEntity(map)
     mText.setString("1");
     mText.setPosition(mMap->GetPlayerSpawn());
     mText.setCharacterSize(mMap->GetEntitySize());
-    mText.setColor(sf::Color(rand(),rand(),rand()));
+    mText.setColor(sf::Color::White);
     mText.setFont(mFont);
     mText.setStyle(sf::Text::Style::Bold);
     mType = ENT_PLYR;
