@@ -8,7 +8,7 @@
 
 #include "StatePlay.h"
 
-StatePlay::StatePlay(Game* game) : State(game), mMap(800,550,45,10), mPlayer(&mMap)
+StatePlay::StatePlay(Game* game) : State(game), mMap(800,550,25,10), mPlayer(&mMap)
 {
     mGame = game;
     Initialize();
