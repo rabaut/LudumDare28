@@ -22,8 +22,16 @@ Map::Map(int mapWidth, int mapHeight, int percentAreWalls, int entitySize)
     // Symbols that need to be found
     mFoundString = "2 3 4 5 6 7 8 9 A B C D E F";
     
+    
     mPlayerSpawn.x = mapWidth/2;
     mPlayerSpawn.y = mapHeight/2;
+    
+    int remx = (int)mPlayerSpawn.x % 10;
+    int remy = (int)mPlayerSpawn.y % 10;
+    if(remx != 0)
+         mPlayerSpawn.x += 10 - remx;
+    else if(remy != 0)
+        mPlayerSpawn.y += 10 - remy;
 
     for(int i=0;i<16;i++)
         mColors.push_back(sf::Color(rand(),rand(),rand()));
