@@ -40,11 +40,11 @@ void Player::Update(double dt)
     // Check Movememnt Key Bindings
     if( sf::Keyboard::isKeyPressed(sf::Keyboard::D) )
         newPos.x += mMap->GetEntitySize();
-    else if( sf::Keyboard::isKeyPressed(sf::Keyboard::A) )
+    if( sf::Keyboard::isKeyPressed(sf::Keyboard::A) )
         newPos.x -= mMap->GetEntitySize();
-    else if( sf::Keyboard::isKeyPressed(sf::Keyboard::W) )
+    if( sf::Keyboard::isKeyPressed(sf::Keyboard::W) )
         newPos.y -= mMap->GetEntitySize();
-    else if( sf::Keyboard::isKeyPressed(sf::Keyboard::S) )
+    if( sf::Keyboard::isKeyPressed(sf::Keyboard::S) )
         newPos.y += mMap->GetEntitySize();
     
     MapEntity* ent = mMap->GetEntity(mMap->PixelToMapCoord(newPos));
